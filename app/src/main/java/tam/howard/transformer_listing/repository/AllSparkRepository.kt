@@ -1,6 +1,7 @@
 package tam.howard.transformer_listing.repository
 
 import tam.howard.transformer_listing.model.Result
+import tam.howard.transformer_listing.model.ResultFailure
 import tam.howard.transformer_listing.provider.api.TransformersApiProvider
 import tam.howard.transformer_listing.provider.sharedPreference.SharedPreferenceProvider
 import tam.howard.transformer_listing.utils.extension.isNotNullOrBlank
@@ -24,8 +25,13 @@ class AllSparkRepository @Inject constructor(
 
         return when (val result = transformersApiProvider.getAllSpark()) {
             is Result.Success -> {
-                allSparkHolder.allSpark = result.value
-                result
+                return if (result.value.isNotBlank()) {
+                    allSparkHolder.allSpark = result.value
+                    result
+                } else {
+                    Result.Failure(failure = ResultFailure.EmptyBody)
+                }
+
             }
             is Result.Failure -> result
         }
@@ -36,6 +42,6 @@ class AllSparkRepository @Inject constructor(
  * pulled up level to contain AppSpark token. To avoid cycle dependency between okhttp interceptor and AppSparkRepository
  */
 @Singleton
-class AllSparkHolder @Inject constructor(){
+class AllSparkHolder @Inject constructor() {
     var allSpark: String? = null
 }
