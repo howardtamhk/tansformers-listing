@@ -35,6 +35,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
 
     flavorDimensions "env"
@@ -67,7 +68,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.3.0'
 
     //kotlin
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
 
     //dagger hilt
     implementation "com.google.dagger:hilt-android:$dagger_version"
@@ -84,15 +85,19 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.2.0"
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation "com.google.dagger:hilt-android-testing:$dagger_version"
-    kaptTest "com.google.dagger:hilt-compiler:$dagger_version"
-
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
     implementation "com.squareup.okhttp3:logging-interceptor:4.8.1"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation "com.google.truth:truth:1.1.2"
+    testImplementation "io.mockk:mockk:1.11.0"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines_version"
+    testImplementation "com.google.dagger:hilt-android-testing:$dagger_version"
+    kaptTest "com.google.dagger:hilt-compiler:$dagger_version"
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

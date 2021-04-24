@@ -12,6 +12,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import tam.howard.transformer_listing.BuildConfig
+import tam.howard.transformer_listing.provider.api.ApiRequestInterceptor
 import tam.howard.transformer_listing.provider.api.ResultCallAdapterFactory
 import tam.howard.transformer_listing.provider.api.TransformersApiProvider
 import tam.howard.transformer_listing.utils.config.EnvironmentConstant
@@ -22,11 +23,12 @@ import javax.inject.Singleton
 object ApiModule {
 
     @Provides
-    fun providesOkHttpClient(): OkHttpClient {
+    fun providesOkHttpClient(requestInterceptor: ApiRequestInterceptor): OkHttpClient {
         return OkHttpClient.Builder().apply {
             if (BuildConfig.SHOW_LOG) {
                 addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             }
+            addInterceptor(requestInterceptor)
         }.build()
     }
 
