@@ -1,4 +1,4 @@
-package tam.howard.transformer_listing.module.listing
+package tam.howard.transformer_listing.ui.listing
 
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint

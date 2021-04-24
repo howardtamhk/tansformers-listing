@@ -12,7 +12,7 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel>(
 ) : AppCompatActivity() {
 
     abstract val vm: VM
-    private lateinit var binding: B
+    protected lateinit var binding: B
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,5 +20,10 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel>(
         this.binding = DataBindingUtil.setContentView(this, this.layoutId)
         this.binding.lifecycleOwner = this
 
+        initUI()
+        bindUI()
     }
+
+    open fun initUI() {}
+    open fun bindUI() {}
 }
