@@ -3,6 +3,7 @@ package tam.howard.transformer_listing.ui.edit
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import tam.howard.transformer_listing.core.BaseViewModel
 import tam.howard.transformer_listing.model.Result
@@ -30,7 +31,8 @@ class TransformerEditViewModel @Inject constructor(
 
     val isEditModelValid: LiveData<Boolean>
 
-    val isSaveSuccess: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    private val _isSaveSuccess: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    val isSaveSuccess: SharedFlow<Boolean> = _isSaveSuccess
 
     init {
         when (editMode) {
@@ -48,7 +50,9 @@ class TransformerEditViewModel @Inject constructor(
                     )
                 )
             }
-            TransformerEditMode.Edit -> TODO()
+            TransformerEditMode.Edit -> editModel = MutableLiveData(
+                savedStateHandle.get<TransformerEdit>(TransformerEditActivity.TRANSFORMER_EDIT)
+            )
         }
 
         isEditModelValid = editModel.map {
@@ -68,11 +72,11 @@ class TransformerEditViewModel @Inject constructor(
     fun save() {
         viewModelScope.launch {
             if (isEditModelValid.value != true) {
-                isSaveSuccess.emit(false)
+                _isSaveSuccess.emit(false)
                 return@launch
             }
             val editModel = editModel.value ?: kotlin.run {
-                isSaveSuccess.emit(false)
+                _isSaveSuccess.emit(false)
                 return@launch
             }
 
@@ -81,7 +85,7 @@ class TransformerEditViewModel @Inject constructor(
                 TransformerEditMode.Edit -> transformersRepository.updateTransformer(editModel)
             }
 
-            isSaveSuccess.emit(result is Result.Success)
+            _isSaveSuccess.emit(result is Result.Success)
         }
     }
 

@@ -30,6 +30,10 @@ class ListingActivity :
         super.initUI()
         initToolbar(binding.toolbarListing, false)
 
+        transformerListAdapter.onItemClicked = {
+            TransformerEditActivity.launch(this, TransformerEditMode.Edit, it)
+        }
+
         binding.recyclerViewListing.apply {
             val llm = LinearLayoutManager(this@ListingActivity, LinearLayoutManager.VERTICAL, false)
             layoutManager = llm

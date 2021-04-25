@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.onEach
 import tam.howard.transformer_listing.R
 import tam.howard.transformer_listing.core.BaseActivity
 import tam.howard.transformer_listing.databinding.ActivityTransformerEditBinding
+import tam.howard.transformer_listing.model.transformers.Transformer
 import tam.howard.transformer_listing.ui.edit.model.TransformerEditMode
 
 @AndroidEntryPoint
@@ -162,13 +163,22 @@ class TransformerEditActivity :
 
     companion object {
         const val EDIT_MODE = "EDIT_MODE"
+        const val TRANSFORMER_EDIT = "TRANSFORMER_EDIT"
 
-        fun launch(context: Context, mode: TransformerEditMode) {
+        fun launch(context: Context, mode: TransformerEditMode, transformer: Transformer? = null) {
+            if (mode == TransformerEditMode.Edit && transformer == null) {
+                return
+            }
             context.startActivity(
-                Intent(context, TransformerEditActivity::class.java).putExtra(
-                    EDIT_MODE,
-                    mode.value
-                )
+                Intent(context, TransformerEditActivity::class.java).apply {
+                    putExtra(
+                        EDIT_MODE,
+                        mode.value
+                    )
+                    transformer?.let {
+                        putExtra(TRANSFORMER_EDIT, it.toTransformerEdit())
+                    }
+                }
             )
         }
     }

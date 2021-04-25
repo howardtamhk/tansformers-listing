@@ -16,6 +16,8 @@ import javax.inject.Inject
 class ListingAdapter @Inject constructor() :
     ListAdapter<Transformer, ListingAdapter.TransformerItemViewHolder>(DIFF_UTILS) {
 
+    var onItemClicked: ((Transformer) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransformerItemViewHolder {
         return TransformerItemViewHolder(
             DataBindingUtil.inflate(
@@ -23,7 +25,8 @@ class ListingAdapter @Inject constructor() :
                 R.layout.view_holder_transformer_item,
                 parent,
                 false
-            )
+            ),
+            onItemClicked
         )
     }
 
@@ -31,11 +34,18 @@ class ListingAdapter @Inject constructor() :
         holder.onBind(currentList[position])
     }
 
-    class TransformerItemViewHolder(binding: ViewHolderTransformerItemBinding) :
+    class TransformerItemViewHolder(
+        binding: ViewHolderTransformerItemBinding,
+        private val onItemClicked: ((Transformer) -> Unit)?,
+    ) :
         BaseViewHolder<ViewHolderTransformerItemBinding, Transformer>(binding) {
         override fun onBind(model: Transformer) {
             super.onBind(model)
             binding.item = model
+
+            binding.root.setOnClickListener {
+                onItemClicked?.invoke(model)
+            }
         }
     }
 

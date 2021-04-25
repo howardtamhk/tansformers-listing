@@ -1,8 +1,6 @@
 package tam.howard.transformer_listing.provider.api
 
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 import tam.howard.transformer_listing.model.Result
 import tam.howard.transformer_listing.model.transformers.Transformer
 import tam.howard.transformer_listing.model.transformers.TransformerEdit
@@ -19,6 +17,6 @@ interface TransformersApiProvider {
     @POST("/transformers")
     suspend fun createTransformer(@Body transformerEdit: TransformerEdit): Result<Transformer>
 
-    @POST("/transformers")
+    @PUT("/transformers")
     suspend fun updateTransformer(@Body transformerEdit: TransformerEdit): Result<Transformer>
 }

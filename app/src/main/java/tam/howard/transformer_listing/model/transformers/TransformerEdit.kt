@@ -1,7 +1,10 @@
 package tam.howard.transformer_listing.model.transformers
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
+@Parcelize
 @Serializable
 data class TransformerEdit(
     val id: String? = null,
@@ -15,7 +18,7 @@ data class TransformerEdit(
     val firepower: Int,
     val skill: Int,
     val team: TransformerTeam? = null,
-) {
+) : Parcelable {
     val isDataValid: Boolean
         get() = name.isNotBlank() &&
                 strength in 1..10 &&
