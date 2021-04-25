@@ -19,4 +19,7 @@ interface TransformersApiProvider {
 
     @PUT("/transformers")
     suspend fun updateTransformer(@Body transformerEdit: TransformerEdit): Result<Transformer>
+
+    @DELETE("/transformers/{transformerId}")
+    suspend fun deleteTransformer(@Path("transformerId") transformerId: String): Result<Unit>
 }

@@ -2,8 +2,11 @@ package tam.howard.transformer_listing.ui.edit
 
 import android.content.Context
 import android.content.Intent
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.warkiz.widget.IndicatorSeekBar
 import com.warkiz.widget.OnSeekChangeListener
@@ -52,6 +55,23 @@ class TransformerEditActivity :
                 Snackbar.make(binding.root, R.string.error_msg, Snackbar.LENGTH_SHORT).show()
             }
         }.launchIn(lifecycleScope)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        if (vm.editMode == TransformerEditMode.Edit) {
+            menuInflater.inflate(R.menu.item_edit_menu, menu)
+        }
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_item_edit_delete -> {
+                deleteTransformer()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun initSeekBarks() {
@@ -158,6 +178,19 @@ class TransformerEditActivity :
                 }
             }
         }
+    }
+
+    private fun deleteTransformer() {
+        val editModel = vm.editModel.value ?: return
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.delete_transformer_confirmation_title)
+            .setMessage(getString(R.string.delete_transformer_confirmation_msg, editModel.name))
+            .setPositiveButton(R.string.yes) { dialog, _ ->
+                vm.deleteTransformer()
+                dialog.dismiss()
+            }.setNegativeButton(R.string.no) { dialog, _ ->
+                dialog.dismiss()
+            }.show()
     }
 
 

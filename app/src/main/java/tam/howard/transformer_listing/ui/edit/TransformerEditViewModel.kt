@@ -89,5 +89,21 @@ class TransformerEditViewModel @Inject constructor(
         }
     }
 
+    fun deleteTransformer() {
+        viewModelScope.launch {
+            if (editMode == TransformerEditMode.Create) {
+                _isSaveSuccess.emit(false)
+                return@launch
+            }
+            val editModel = editModel.value ?: kotlin.run {
+                _isSaveSuccess.emit(false)
+                return@launch
+            }
+
+            val result = transformersRepository.deleteTransformer(editModel)
+            _isSaveSuccess.emit(result is Result.Success)
+        }
+    }
+
 
 }

@@ -48,4 +48,26 @@ class TransformersRepository @Inject constructor(private val apiProvider: Transf
             is Result.Failure -> result
         }
     }
+
+    suspend fun deleteTransformer(transformerEdit: TransformerEdit): Result<Boolean> {
+        if (transformerEdit.id.isNullOrBlank()) {
+            return Result.Failure(failure = ResultFailure.InputInvalid)
+        }
+
+        return when (val result = apiProvider.deleteTransformer(transformerEdit.id)) {
+            is Result.Success -> {
+                onTransformersChanged.emit(Unit)
+                result.map { true }
+            }
+            is Result.Failure -> {
+                // special handling for backend api returning empty response even delete sucessfully
+                if (result.statusCode == 204 && result.failure == ResultFailure.EmptyBody) {
+                    onTransformersChanged.emit(Unit)
+                    Result.Success(statusCode = result.statusCode, value = true)
+                } else {
+                    result
+                }
+            }
+        }
+    }
 }

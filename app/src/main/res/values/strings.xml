@@ -21,4 +21,10 @@
 
     <string name="error_msg">Something went wrong. Please try again!</string>
     <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="delete_transformer_confirmation_title">Delete Transformer</string>
+    <string name="delete_transformer_confirmation_msg">Confirm to delete %1$s?</string>
 </resources>
