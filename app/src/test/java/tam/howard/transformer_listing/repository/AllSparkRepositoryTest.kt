@@ -12,7 +12,7 @@ import tam.howard.transformer_listing.model.ResultFailure
 import tam.howard.transformer_listing.provider.api.TransformersApiProvider
 import tam.howard.transformer_listing.provider.sharedPreference.SharedPreferenceProvider
 
-class AllSparkRepositoryUnitTest {
+class AllSparkRepositoryTest {
 
     lateinit var allSparkHolder: AllSparkHolder
     lateinit var apiProviderMock: TransformersApiProvider
@@ -23,7 +23,7 @@ class AllSparkRepositoryUnitTest {
     fun setup() {
         allSparkHolder = AllSparkHolder()
         apiProviderMock = mockk()
-        sharedPreferenceProviderMock = mockk()
+        sharedPreferenceProviderMock = mockk(relaxed = true)
 
         repository = AllSparkRepository(
             allSparkHolder = allSparkHolder,

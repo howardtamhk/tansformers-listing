@@ -3,6 +3,7 @@ package tam.howard.transformer_listing.provider.api
 import okhttp3.Interceptor
 import okhttp3.Response
 import tam.howard.transformer_listing.repository.AllSparkHolder
+import tam.howard.transformer_listing.utils.extension.isNotNullOrBlank
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,7 +16,7 @@ class ApiRequestInterceptor @Inject constructor(private val allSparkHolder: AllS
         requestBuilder.addHeader("Content-Type", "application/json")
 
         val allSpark = allSparkHolder.allSpark
-        if (allSpark.isNullOrBlank()) {
+        if (allSpark.isNotNullOrBlank()) {
             requestBuilder.addHeader("Authorization", "Bearer $allSpark")
         }
 

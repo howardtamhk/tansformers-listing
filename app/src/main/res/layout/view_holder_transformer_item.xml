@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="tam.howard.transformer_listing.model.transformers.Transformer" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="@dimen/listing_item_elevation">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/listing_item_padding">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_transformer_item_image_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.25" />
+
+            <ImageView
+                android:id="@+id/image_view_transformer_item"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="@id/guideline_transformer_item_image_end"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:loadUrl="@{item.teamIcon}" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_transformer_item_info_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.30" />
+
+            <TextView
+                android:id="@+id/text_view_transformer_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/listing_item_name_margin_end"
+                android:text="@{item.name}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toStartOf="@id/rating_bar_transformer_item_rating"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/guideline_transformer_item_info_start"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Megatron" />
+
+            <RatingBar
+                android:id="@+id/rating_bar_transformer_item_rating"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="@{item.ratingStarValue}"
+                android:stepSize="0.5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/text_view_transformer_item_name"
+                tools:rating="4.2" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_transformer_item_rating_column_first_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.63" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_transformer_item_rating_column_second_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.67" />
+
+            <!-- region First rating row -->
+            <TextView
+                android:id="@+id/text_view_transformer_item_strength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/listing_item_first_rating_row_margin_top"
+                android:text="@string/strength"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintStart_toStartOf="@id/guideline_transformer_item_info_start"
+                app:layout_constraintTop_toBottomOf="@id/text_view_transformer_item_name" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.strength + ``}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintBaseline_toBaselineOf="@id/text_view_transformer_item_strength"
+                app:layout_constraintEnd_toEndOf="@id/guideline_transformer_item_rating_column_first_end"
+                tools:text="4" />
+
+            <TextView
+                android:id="@+id/text_view_transformer_item_intelligence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/intelligence"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintBaseline_toBaselineOf="@id/text_view_transformer_item_strength"
+                app:layout_constraintStart_toStartOf="@id/guideline_transformer_item_rating_column_second_start" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.intelligence + ``}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintBaseline_toBaselineOf="@id/text_view_transformer_item_strength"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="4" />
+            <!-- endregion First rating row -->
+
+            <!-- region Second rating row -->
+            <TextView
+                android:id="@+id/text_view_transformer_item_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/listing_item_rating_row_margin_top"
+                android:text="@string/speed"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintStart_toStartOf="@id/guideline_transformer_item_info_start"
+                app:layout_constraintTop_toBottomOf="@id/text_view_transformer_item_strength" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.speed + ``}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintBaseline_toBaselineOf="@id/text_view_transformer_item_speed"
+                app:layout_constraintEnd_toEndOf="@id/guideline_transformer_item_rating_column_first_end"
+                tools:text="4" />
+
+            <TextView
+                android:id="@+id/text_view_transformer_item_endurance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/endurance"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintBaseline_toBaselineOf="@id/text_view_transformer_item_speed"
+                app:layout_constraintStart_toStartOf="@id/guideline_transformer_item_rating_column_second_start" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.endurance + ``}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintBaseline_toBaselineOf="@id/text_view_transformer_item_speed"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="4" />
+            <!-- endregion Second rating row -->
+
+            <!-- region Third rating row -->
+            <TextView
+                android:id="@+id/text_view_transformer_item_rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/listing_item_rating_row_margin_top"
+                android:text="@string/rank"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintStart_toStartOf="@id/guideline_transformer_item_info_start"
+                app:layout_constraintTop_toBottomOf="@id/text_view_transformer_item_speed" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.rank + ``}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintBaseline_toBaselineOf="@id/text_view_transformer_item_rank"
+                app:layout_constraintEnd_toEndOf="@id/guideline_transformer_item_rating_column_first_end"
+                tools:text="4" />
+
+            <TextView
+                android:id="@+id/text_view_transformer_item_courage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/courage"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintBaseline_toBaselineOf="@id/text_view_transformer_item_rank"
+                app:layout_constraintStart_toStartOf="@id/guideline_transformer_item_rating_column_second_start" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.courage + ``}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintBaseline_toBaselineOf="@id/text_view_transformer_item_rank"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="4" />
+            <!-- endregion Third rating row -->
+
+            <!-- region Forth rating row -->
+            <TextView
+                android:id="@+id/text_view_transformer_item_firepower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/listing_item_rating_row_margin_top"
+                android:text="@string/firepower"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintStart_toStartOf="@id/guideline_transformer_item_info_start"
+                app:layout_constraintTop_toBottomOf="@id/text_view_transformer_item_rank" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.firepower + ``}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintBaseline_toBaselineOf="@id/text_view_transformer_item_firepower"
+                app:layout_constraintEnd_toEndOf="@id/guideline_transformer_item_rating_column_first_end"
+                tools:text="4" />
+
+            <TextView
+                android:id="@+id/text_view_transformer_item_skill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/skill"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintBaseline_toBaselineOf="@id/text_view_transformer_item_firepower"
+                app:layout_constraintStart_toStartOf="@id/guideline_transformer_item_rating_column_second_start" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.skill + ``}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintBaseline_toBaselineOf="@id/text_view_transformer_item_firepower"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="4" />
+            <!-- endregion Forth rating row -->
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

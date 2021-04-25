@@ -25,10 +25,10 @@ object ApiModule {
     @Provides
     fun providesOkHttpClient(requestInterceptor: ApiRequestInterceptor): OkHttpClient {
         return OkHttpClient.Builder().apply {
+            addInterceptor(requestInterceptor)
             if (BuildConfig.SHOW_LOG) {
                 addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             }
-            addInterceptor(requestInterceptor)
         }.build()
     }
 
