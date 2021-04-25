@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import tam.howard.transformer_listing.core.BaseViewModel
 import tam.howard.transformer_listing.model.Result
@@ -28,6 +30,10 @@ class ListingViewModel @Inject constructor(private val transformersRepository: T
 
     init {
         reload()
+
+        transformersRepository.onTransformersChanged.onEach {
+            reload()
+        }.launchIn(viewModelScope)
     }
 
     fun reload() {

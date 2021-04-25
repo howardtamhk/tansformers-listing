@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -16,5 +16,15 @@
 
     <style name="AppTheme.Splash" parent="AppTheme">
         <item name="android:windowBackground">@drawable/drawable_splash_screen_background</item>
+    </style>
+
+    <style name="AppTheme.SeekBar">
+        <item name="isb_indicator_color">?attr/colorSecondary</item>
+        <item name="isb_max">10</item>
+        <item name="isb_min">1</item>
+        <item name="isb_seek_smoothly">false</item>
+        <item name="isb_thumb_color">?attr/colorSecondary</item>
+        <item name="isb_thumb_text_color">?attr/colorOnSecondary</item>
+        <item name="isb_track_progress_color">?attr/colorSecondary</item>
     </style>
 </resources>

@@ -13,6 +13,7 @@ sealed class Result<out T>(open val statusCode: Int? = null) {
 }
 
 sealed class ResultFailure {
+    object InputInvalid : ResultFailure()
     object EmptyBody : ResultFailure()
 
     data class ApiError(val errorBodyStr: String?) : ResultFailure()

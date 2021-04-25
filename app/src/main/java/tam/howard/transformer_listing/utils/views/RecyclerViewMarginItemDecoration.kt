@@ -22,12 +22,6 @@ class RecyclerViewMarginItemDecoration @AssistedInject constructor(
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        parent.adapter?.let {
-            val position = parent.getChildAdapterPosition(view)
-            if (position >= it.itemCount - 1) {
-                return
-            }
-        }
         with(outRect) {
             if (orientation == LinearLayoutManager.HORIZONTAL) {
                 right = value

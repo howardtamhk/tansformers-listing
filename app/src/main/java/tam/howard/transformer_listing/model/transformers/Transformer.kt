@@ -21,4 +21,18 @@ data class Transformer(
 ) {
     val rating: Int = strength + intelligence + speed + endurance + firepower
     val ratingStarValue: Float = rating / 10f
+
+    fun toTransformerEdit(): TransformerEdit = TransformerEdit(
+        id = id,
+        name = name,
+        strength = strength,
+        intelligence = intelligence,
+        speed = speed,
+        endurance = endurance,
+        rank = rank,
+        courage = courage,
+        firepower = firepower,
+        skill = skill,
+        team = team,
+    )
 }
