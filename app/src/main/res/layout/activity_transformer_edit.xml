@@ -311,7 +311,7 @@
                 android:layout_marginHorizontal="@dimen/edit_padding_horizontal"
                 android:onClick="@{() -> vm.save()}"
                 android:text="@string/save"
-                app:enabled="@{vm.isEditModelValid}"
+                app:enabled="@{vm.isEditModelValid &amp;&amp; !vm.isLoading}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 

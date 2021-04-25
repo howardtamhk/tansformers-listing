@@ -48,7 +48,7 @@ class TransformerEditActivity :
             }
         }
 
-        vm.isSaveSuccess.onEach {
+        vm.isActionSuccess.onEach {
             if (it) {
                 finish()
             } else {

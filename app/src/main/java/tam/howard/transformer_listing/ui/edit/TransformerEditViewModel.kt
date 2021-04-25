@@ -20,6 +20,7 @@ class TransformerEditViewModel @Inject constructor(
 ) :
     BaseViewModel() {
 
+    val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val editMode: TransformerEditMode =
         savedStateHandle.get<String>(TransformerEditActivity.EDIT_MODE)
             ?.let { TransformerEditMode.customValueOf(it) }
@@ -31,8 +32,8 @@ class TransformerEditViewModel @Inject constructor(
 
     val isEditModelValid: LiveData<Boolean>
 
-    private val _isSaveSuccess: MutableSharedFlow<Boolean> = MutableSharedFlow()
-    val isSaveSuccess: SharedFlow<Boolean> = _isSaveSuccess
+    private val _isActionSuccess: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    val isActionSuccess: SharedFlow<Boolean> = _isActionSuccess
 
     init {
         when (editMode) {
@@ -72,36 +73,40 @@ class TransformerEditViewModel @Inject constructor(
     fun save() {
         viewModelScope.launch {
             if (isEditModelValid.value != true) {
-                _isSaveSuccess.emit(false)
+                _isActionSuccess.emit(false)
                 return@launch
             }
             val editModel = editModel.value ?: kotlin.run {
-                _isSaveSuccess.emit(false)
+                _isActionSuccess.emit(false)
                 return@launch
             }
 
+            isLoading.value = true
             val result = when (editMode) {
                 TransformerEditMode.Create -> transformersRepository.createTransformer(editModel)
                 TransformerEditMode.Edit -> transformersRepository.updateTransformer(editModel)
             }
 
-            _isSaveSuccess.emit(result is Result.Success)
+            _isActionSuccess.emit(result is Result.Success)
+            isLoading.value = false
         }
     }
 
     fun deleteTransformer() {
         viewModelScope.launch {
             if (editMode == TransformerEditMode.Create) {
-                _isSaveSuccess.emit(false)
+                _isActionSuccess.emit(false)
                 return@launch
             }
             val editModel = editModel.value ?: kotlin.run {
-                _isSaveSuccess.emit(false)
+                _isActionSuccess.emit(false)
                 return@launch
             }
 
+            isLoading.value = true
             val result = transformersRepository.deleteTransformer(editModel)
-            _isSaveSuccess.emit(result is Result.Success)
+            _isActionSuccess.emit(result is Result.Success)
+            isLoading.value = false
         }
     }
 
