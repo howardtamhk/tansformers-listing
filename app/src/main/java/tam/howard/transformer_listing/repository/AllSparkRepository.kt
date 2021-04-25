@@ -27,6 +27,7 @@ class AllSparkRepository @Inject constructor(
             is Result.Success -> {
                 return if (result.value.isNotBlank()) {
                     allSparkHolder.allSpark = result.value
+                    sharedPreferenceProvider.allSpark = result.value
                     result
                 } else {
                     Result.Failure(failure = ResultFailure.EmptyBody)
