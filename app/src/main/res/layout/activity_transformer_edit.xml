@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="tam.howard.transformer_listing.ui.edit.TransformerEditViewModel" />
+
+        <import type="tam.howard.transformer_listing.model.transformers.TransformerTeam" />
+    </data>
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.edit.TransformerEditActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar_transformer_edit"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize" />
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/button_edit_save"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/edit_padding_horizontal"
+                    android:paddingVertical="@dimen/edit_padding_vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/text_field_edit_name"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/name"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionDone"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:text="@={vm.name}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/button_edit_team"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/edit_margin_between_vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_field_edit_name"
+                        app:selectionRequired="true"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/button_edit_team_autobot"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:onClick="@{() -> vm.setTeam(TransformerTeam.Autobot)}"
+                            android:text="@string/autobot"
+                            app:checked="@{vm.editModel.team == TransformerTeam.Autobot}" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/button_edit_team_decepticon"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:onClick="@{() -> vm.setTeam(TransformerTeam.Decepticon)}"
+                            android:text="@string/decepticon"
+                            app:checked="@{vm.editModel.team == TransformerTeam.Decepticon}" />
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline_edit_seekbar_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <!-- region strength -->
+                    <TextView
+                        android:id="@+id/text_view_edit_strength"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/edit_margin_between_vertical"
+                        android:text="@string/strength"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textColor="?android:attr/textColorSecondary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/button_edit_team" />
+
+                    <com.warkiz.widget.IndicatorSeekBar
+                        android:id="@+id/seekbar_edit_strength"
+                        style="@style/AppTheme.SeekBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@id/text_view_edit_strength"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline_edit_seekbar_start"
+                        app:layout_constraintTop_toTopOf="@id/text_view_edit_strength"
+                        app:progress="@{vm.editModel.strength}" />
+                    <!-- endregion strength -->
+
+                    <!-- region intelligence -->
+                    <TextView
+                        android:id="@+id/text_view_edit_intelligence"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/edit_margin_between_vertical"
+                        android:text="@string/intelligence"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textColor="?android:attr/textColorSecondary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_view_edit_strength" />
+
+                    <com.warkiz.widget.IndicatorSeekBar
+                        android:id="@+id/seekbar_edit_intelligence"
+                        style="@style/AppTheme.SeekBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@id/text_view_edit_intelligence"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline_edit_seekbar_start"
+                        app:layout_constraintTop_toTopOf="@id/text_view_edit_intelligence"
+                        app:progress="@{vm.editModel.intelligence}" />
+                    <!-- endregion intelligence -->
+
+                    <!-- region speed -->
+                    <TextView
+                        android:id="@+id/text_view_edit_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/edit_margin_between_vertical"
+                        android:text="@string/speed"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textColor="?android:attr/textColorSecondary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_view_edit_intelligence" />
+
+                    <com.warkiz.widget.IndicatorSeekBar
+                        android:id="@+id/seekbar_edit_speed"
+                        style="@style/AppTheme.SeekBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@id/text_view_edit_speed"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline_edit_seekbar_start"
+                        app:layout_constraintTop_toTopOf="@id/text_view_edit_speed"
+                        app:progress="@{vm.editModel.speed}" />
+                    <!-- endregion speed -->
+
+                    <!-- region endurance -->
+                    <TextView
+                        android:id="@+id/text_view_edit_endurance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/edit_margin_between_vertical"
+                        android:text="@string/endurance"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textColor="?android:attr/textColorSecondary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_view_edit_speed" />
+
+                    <com.warkiz.widget.IndicatorSeekBar
+                        android:id="@+id/seekbar_edit_endurance"
+                        style="@style/AppTheme.SeekBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@id/text_view_edit_endurance"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline_edit_seekbar_start"
+                        app:layout_constraintTop_toTopOf="@id/text_view_edit_endurance"
+                        app:progress="@{vm.editModel.endurance}" />
+                    <!-- endregion endurance -->
+
+                    <!-- region rank -->
+                    <TextView
+                        android:id="@+id/text_view_edit_rank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/edit_margin_between_vertical"
+                        android:text="@string/rank"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textColor="?android:attr/textColorSecondary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_view_edit_endurance" />
+
+                    <com.warkiz.widget.IndicatorSeekBar
+                        android:id="@+id/seekbar_edit_rank"
+                        style="@style/AppTheme.SeekBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@id/text_view_edit_rank"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline_edit_seekbar_start"
+                        app:layout_constraintTop_toTopOf="@id/text_view_edit_rank"
+                        app:progress="@{vm.editModel.rank}" />
+                    <!-- endregion rank -->
+
+                    <!-- region courage -->
+                    <TextView
+                        android:id="@+id/text_view_edit_courage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/edit_margin_between_vertical"
+                        android:text="@string/courage"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textColor="?android:attr/textColorSecondary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_view_edit_rank" />
+
+                    <com.warkiz.widget.IndicatorSeekBar
+                        android:id="@+id/seekbar_edit_courage"
+                        style="@style/AppTheme.SeekBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@id/text_view_edit_courage"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline_edit_seekbar_start"
+                        app:layout_constraintTop_toTopOf="@id/text_view_edit_courage"
+                        app:progress="@{vm.editModel.courage}" />
+                    <!-- endregion courage -->
+
+                    <!-- region firepower -->
+                    <TextView
+                        android:id="@+id/text_view_edit_firepower"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/edit_margin_between_vertical"
+                        android:text="@string/firepower"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textColor="?android:attr/textColorSecondary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_view_edit_courage" />
+
+                    <com.warkiz.widget.IndicatorSeekBar
+                        android:id="@+id/seekbar_edit_firepower"
+                        style="@style/AppTheme.SeekBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@id/text_view_edit_firepower"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline_edit_seekbar_start"
+                        app:layout_constraintTop_toTopOf="@id/text_view_edit_firepower"
+                        app:progress="@{vm.editModel.firepower}" />
+                    <!-- endregion firepower -->
+
+                    <!-- region skill -->
+                    <TextView
+                        android:id="@+id/text_view_edit_skill"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/edit_margin_between_vertical"
+                        android:text="@string/skill"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textColor="?android:attr/textColorSecondary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_view_edit_firepower" />
+
+                    <com.warkiz.widget.IndicatorSeekBar
+                        android:id="@+id/seekbar_edit_skill"
+                        style="@style/AppTheme.SeekBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@id/text_view_edit_skill"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline_edit_seekbar_start"
+                        app:layout_constraintTop_toTopOf="@id/text_view_edit_skill"
+                        app:progress="@{vm.editModel.skill}" />
+                    <!-- endregion skill -->
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </ScrollView>
+
+            <Button
+                android:id="@+id/button_edit_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/edit_padding_horizontal"
+                android:onClick="@{() -> vm.save()}"
+                android:text="@string/save"
+                app:enabled="@{vm.isEditModelValid}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

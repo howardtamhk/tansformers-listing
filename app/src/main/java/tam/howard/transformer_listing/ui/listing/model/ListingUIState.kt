@@ -9,7 +9,7 @@ enum class ListingUIState {
     fun uiMessage(context: Context): String {
         return when (this) {
             Empty -> context.getString(R.string.transformers_empty_list)
-            Error -> context.getString(R.string.transformers_listing_error)
+            Error -> context.getString(R.string.error_msg)
             else -> ""
         }
     }

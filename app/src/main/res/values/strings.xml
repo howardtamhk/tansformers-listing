@@ -2,6 +2,9 @@
 
     <string name="all_spark_unavailable">You cannot get AllSpark at the moment. Try again later!</string>
 
+    <string name="create_transformer">Create Transformer</string>
+
+    <string name="name">Name</string>
     <string name="strength">Strength</string>
     <string name="intelligence">Intelligence</string>
     <string name="speed">Speed</string>
@@ -11,6 +14,11 @@
     <string name="firepower">Firepower</string>
     <string name="skill">Skill</string>
 
+    <string name="autobot">Autobot</string>
+    <string name="decepticon">Decepticon</string>
+
     <string name="transformers_empty_list">You don\'t have Transformers yet!</string>
-    <string name="transformers_listing_error">Something went wrong. Please try again!</string>
+
+    <string name="error_msg">Something went wrong. Please try again!</string>
+    <string name="save">Save</string>
 </resources>

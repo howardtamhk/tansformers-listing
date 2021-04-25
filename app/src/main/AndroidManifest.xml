@@ -21,6 +21,8 @@
         </activity>
 
         <activity android:name=".ui.listing.ListingActivity" />
+        <activity android:name=".ui.edit.TransformerEditActivity"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>
