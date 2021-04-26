@@ -67,7 +67,7 @@ class ListingViewModel @Inject constructor(
     fun fight() {
         viewModelScope.launch {
             val transformers: List<Transformer> = transformerList.value ?: kotlin.run {
-                _onFightResult.emit(TransformerFightResult(0, null))
+                _onFightResult.emit(TransformerFightResult(0))
                 return@launch
             }
 

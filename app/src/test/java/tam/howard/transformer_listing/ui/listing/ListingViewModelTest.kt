@@ -4,10 +4,15 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
+import io.mockk.spyk
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
@@ -20,6 +25,7 @@ import tam.howard.transformer_listing.model.ResultFailure
 import tam.howard.transformer_listing.model.transformers.Transformer
 import tam.howard.transformer_listing.repository.TransformersRepository
 import tam.howard.transformer_listing.ui.listing.model.ListingUIState
+import tam.howard.transformer_listing.ui.listing.model.TransformerFightResult
 
 @RunWith(MockitoJUnitRunner::class)
 class ListingViewModelTest {
@@ -36,7 +42,7 @@ class ListingViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(TestCoroutineDispatcher())
-        transformersRepository = mockk()
+        transformersRepository = mockk(relaxed = true)
         transformerListLiveDataObserver = mockk(relaxed = true)
         uiStateLiveDataObserver = mockk(relaxed = true)
         helper = mockk()
@@ -47,6 +53,7 @@ class ListingViewModelTest {
         Dispatchers.resetMain()
     }
 
+    //region reload
     @Test
     fun `reload repository return non-empty list ui state is Result`() {
         val transformers = listOf<Transformer>(
@@ -88,5 +95,84 @@ class ListingViewModelTest {
         vm.reload()
         assertThat(vm.uiState.value).isEqualTo(ListingUIState.Error)
     }
+    //endregion reload
+
+    //region fight
+    @Test
+    fun `empty transformer list onFightResult 0 noOfFight`() {
+        coEvery { transformersRepository.getTransformers() } returns Result.Failure(failure = ResultFailure.EmptyBody)
+
+        vm = ListingViewModel(transformersRepository, helper)
+        val vmSpy = spyk(vm) {
+            every { transformerList.value } returns null
+        }
+
+        runBlockingTest {
+            val job = launch {
+                vmSpy.onFightResult.collect {
+                    assertThat(it.noOfFight).isEqualTo(0)
+                }
+            }
+
+            vmSpy.fight()
+            job.cancel()
+        }
+
+    }
+
+    @Test
+    fun `fight helper return Autobot wins onFightResult Autobot wins`() {
+        coEvery { transformersRepository.getTransformers() } returns Result.Failure(failure = ResultFailure.EmptyBody)
+
+        vm = ListingViewModel(transformersRepository, helper)
+        val vmSpy = spyk(vm) {
+            every { transformerList.value } returns listOf(mockk())
+        }
+
+        val result: TransformerFightResult = mockk {
+            every { winningTeam } returns TransformerFightResult.WinningTeam.Autobot
+        }
+        every { helper.fight(any()) } returns result
+
+        runBlockingTest {
+            val job = launch {
+                vmSpy.onFightResult.collect {
+                    assertThat(it).isEqualTo(result)
+                }
+            }
+
+            vmSpy.fight()
+            job.cancel()
+        }
+
+    }
+
+    @Test
+    fun `fight helper return Deception wins onFightResult Deception wins`() {
+        coEvery { transformersRepository.getTransformers() } returns Result.Failure(failure = ResultFailure.EmptyBody)
+
+        vm = ListingViewModel(transformersRepository, helper)
+        val vmSpy = spyk(vm) {
+            every { transformerList.value } returns listOf(mockk())
+        }
+
+        val result: TransformerFightResult = mockk {
+            every { winningTeam } returns TransformerFightResult.WinningTeam.Deception
+        }
+        every { helper.fight(any()) } returns result
+
+        runBlockingTest {
+            val job = launch {
+                vmSpy.onFightResult.collect {
+                    assertThat(it).isEqualTo(result)
+                }
+            }
+
+            vmSpy.fight()
+            job.cancel()
+        }
+
+    }
+    //endregion fight
 
 }
