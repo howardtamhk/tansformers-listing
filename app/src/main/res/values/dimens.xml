@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="listing_padding_horizontal">12dp</dimen>
+    <dimen name="listing_padding_vertical">8dp</dimen>
+    <dimen name="listing_padding_button_margin_bottom">8dp</dimen>
+
+    <dimen name="listing_item_elevation">12dp</dimen>
+    <dimen name="listing_item_padding">12dp</dimen>
+    <dimen name="listing_item_margin_between">8dp</dimen>
+    <dimen name="listing_item_name_margin_end">8dp</dimen>
+    <dimen name="listing_item_first_rating_row_margin_top">8dp</dimen>
+    <dimen name="listing_item_rating_row_margin_top">4dp</dimen>
+
+    <dimen name="edit_padding_horizontal">12dp</dimen>
+    <dimen name="edit_padding_vertical">8dp</dimen>
+    <dimen name="edit_margin_between_vertical">8dp</dimen>
+</resources>

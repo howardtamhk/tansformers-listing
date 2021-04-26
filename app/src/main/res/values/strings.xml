@@ -1,3 +1,40 @@
 <resources>
-    <string name="app_name">transformer-listing</string>
+
+    <string name="all_spark_unavailable">You cannot get AllSpark at the moment. Try again later!</string>
+
+    <string name="create_transformer">Create Transformer</string>
+
+    <string name="name">Name</string>
+    <string name="strength">Strength</string>
+    <string name="intelligence">Intelligence</string>
+    <string name="speed">Speed</string>
+    <string name="endurance">Endurance</string>
+    <string name="rank">Rank</string>
+    <string name="courage">Courage</string>
+    <string name="firepower">Firepower</string>
+    <string name="skill">Skill</string>
+
+    <string name="autobot">Autobot</string>
+    <string name="decepticon">Decepticon</string>
+
+    <string name="fight">Fight!</string>
+
+    <string name="transformers_empty_list">You don\'t have Transformers yet!</string>
+
+    <string name="error_msg">Something went wrong. Please try again!</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">OK</string>
+
+    <string name="delete_transformer_confirmation_title">Delete Transformer</string>
+    <string name="delete_transformer_confirmation_msg">Confirm to delete %1$s?</string>
+
+    <string name="no_fights">No fight happen!</string>
+    <string name="fight_result">Fight result</string>
+    <string name="fight_result_msg">%1$d battle\nWinning Team(%2$s): %3$s\nSurvivors from the losing team (%4$s): %5$s</string>
+    <string name="fight_result_tie">%1$d battle\nTie Battle</string>
+    <string name="no_survivors">No survivors</string>
+    <string name="all_transformer_destroyed">All Transformers destroyed</string>
 </resources>
