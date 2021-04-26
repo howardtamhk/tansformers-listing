@@ -7,7 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -16,6 +16,7 @@ import tam.howard.transformer_listing.provider.api.ApiRequestInterceptor
 import tam.howard.transformer_listing.provider.api.ResultCallAdapterFactory
 import tam.howard.transformer_listing.provider.api.TransformersApiProvider
 import tam.howard.transformer_listing.utils.config.EnvironmentConstant
+import tam.howard.transformer_listing.utils.network.TLS12SocketFactory
 import javax.inject.Singleton
 
 @Module
@@ -23,12 +24,24 @@ import javax.inject.Singleton
 object ApiModule {
 
     @Provides
-    fun providesOkHttpClient(requestInterceptor: ApiRequestInterceptor): OkHttpClient {
+    fun providesOkHttpClient(
+        requestInterceptor: ApiRequestInterceptor,
+        tlS12SocketFactory: TLS12SocketFactory
+    ): OkHttpClient {
         return OkHttpClient.Builder().apply {
             addInterceptor(requestInterceptor)
             if (BuildConfig.SHOW_LOG) {
                 addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             }
+
+            try {
+                tlS12SocketFactory.trustManager?.let {
+                    sslSocketFactory(tlS12SocketFactory, it)
+                }
+            } catch (e: Throwable) {
+
+            }
+
         }.build()
     }
 
@@ -50,7 +63,7 @@ object ApiModule {
                     ignoreUnknownKeys = true
                     prettyPrint = true
                     isLenient = true
-                }.asConverterFactory("application/json".toMediaType())
+                }.asConverterFactory(MediaType.get("application/json"))
             ).addCallAdapterFactory(resultCallAdapterFactory)
             .build()
     }
