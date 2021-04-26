@@ -11,3 +11,11 @@ fun View.clicks(): Flow<Unit> = callbackFlow {
     }
     awaitClose { setOnClickListener(null) }
 }
+
+fun View.visible(){
+    visibility = View.VISIBLE
+}
+
+fun View.gone(){
+    visibility = View.GONE
+}
