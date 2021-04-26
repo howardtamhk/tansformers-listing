@@ -4,16 +4,20 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import coil.ImageLoader
+import coil.request.ImageRequest
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import tam.howard.transformer_listing.R
 import tam.howard.transformer_listing.core.BaseViewHolder
 import tam.howard.transformer_listing.databinding.ViewHolderTransformerItemBinding
 import tam.howard.transformer_listing.model.transformers.Transformer
+import tam.howard.transformer_listing.utils.extension.gone
 import tam.howard.transformer_listing.utils.extension.layoutInflater
+import tam.howard.transformer_listing.utils.extension.visible
 import javax.inject.Inject
 
 @ActivityRetainedScoped
-class ListingAdapter @Inject constructor() :
+class ListingAdapter @Inject constructor(private val imageLoader: ImageLoader) :
     ListAdapter<Transformer, ListingAdapter.TransformerItemViewHolder>(DIFF_UTILS) {
 
     var onItemClicked: ((Transformer) -> Unit)? = null
@@ -26,6 +30,7 @@ class ListingAdapter @Inject constructor() :
                 parent,
                 false
             ),
+            imageLoader,
             onItemClicked
         )
     }
@@ -36,12 +41,28 @@ class ListingAdapter @Inject constructor() :
 
     class TransformerItemViewHolder(
         binding: ViewHolderTransformerItemBinding,
+        private val imageLoader: ImageLoader,
         private val onItemClicked: ((Transformer) -> Unit)?,
     ) :
         BaseViewHolder<ViewHolderTransformerItemBinding, Transformer>(binding) {
         override fun onBind(model: Transformer) {
             super.onBind(model)
             binding.item = model
+
+            binding.imageViewTransformerItem.apply {
+                if (model.teamIcon.isNotBlank()) {
+                    imageLoader.enqueue(
+                        ImageRequest.Builder(context)
+                            .data(model.teamIcon)
+                            .target(this)
+                            .build()
+                    )
+                    visible()
+                } else {
+                    gone()
+                }
+            }
+
 
             binding.root.setOnClickListener {
                 onItemClicked?.invoke(model)
