@@ -11,6 +11,7 @@ import tam.howard.transformer_listing.model.transformers.TransformerEdit
 import tam.howard.transformer_listing.model.transformers.TransformerTeam
 import tam.howard.transformer_listing.repository.TransformersRepository
 import tam.howard.transformer_listing.ui.edit.model.TransformerEditMode
+import tam.howard.transformer_listing.utils.extension.isNotNullOrBlank
 import javax.inject.Inject
 
 @HiltViewModel
@@ -59,7 +60,7 @@ class TransformerEditViewModel @Inject constructor(
         isEditModelValid = editModel.map {
             when (editMode) {
                 TransformerEditMode.Create -> it.isDataValid
-                TransformerEditMode.Edit -> it.id != null && it.isDataValid
+                TransformerEditMode.Edit -> it.id.isNotNullOrBlank() && it.isDataValid
             }
         }
         name = MutableLiveData(editModel.value?.name)
@@ -99,6 +100,11 @@ class TransformerEditViewModel @Inject constructor(
                 return@launch
             }
             val editModel = editModel.value ?: kotlin.run {
+                _isActionSuccess.emit(false)
+                return@launch
+            }
+
+            if (editModel.id.isNullOrBlank()) {
                 _isActionSuccess.emit(false)
                 return@launch
             }
