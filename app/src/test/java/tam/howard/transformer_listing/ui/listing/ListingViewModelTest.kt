@@ -31,6 +31,7 @@ class ListingViewModelTest {
     lateinit var vm: ListingViewModel
     lateinit var transformerListLiveDataObserver: Observer<List<Transformer>>
     lateinit var uiStateLiveDataObserver: Observer<ListingUIState>
+    lateinit var helper: TransformerFightHelper
 
     @Before
     fun setUp() {
@@ -38,6 +39,7 @@ class ListingViewModelTest {
         transformersRepository = mockk()
         transformerListLiveDataObserver = mockk(relaxed = true)
         uiStateLiveDataObserver = mockk(relaxed = true)
+        helper = mockk()
     }
 
     @After
@@ -55,7 +57,7 @@ class ListingViewModelTest {
         )
         coEvery { transformersRepository.getTransformers() } returns Result.Success(value = transformers)
 
-        vm = ListingViewModel(transformersRepository)
+        vm = ListingViewModel(transformersRepository, helper)
         vm.transformerList.observeForever(transformerListLiveDataObserver)
         vm.uiState.observeForever(uiStateLiveDataObserver)
         vm.reload()
@@ -68,7 +70,7 @@ class ListingViewModelTest {
     fun `reload repository return empty list ui state is Empty`() {
         coEvery { transformersRepository.getTransformers() } returns Result.Success(value = listOf())
 
-        vm = ListingViewModel(transformersRepository)
+        vm = ListingViewModel(transformersRepository, helper)
         vm.transformerList.observeForever(transformerListLiveDataObserver)
         vm.uiState.observeForever(uiStateLiveDataObserver)
         vm.reload()
@@ -80,7 +82,7 @@ class ListingViewModelTest {
     fun `reload repository return Failure ui state is Error`() {
         coEvery { transformersRepository.getTransformers() } returns Result.Failure(failure = ResultFailure.EmptyBody)
 
-        vm = ListingViewModel(transformersRepository)
+        vm = ListingViewModel(transformersRepository, helper)
         vm.transformerList.observeForever(transformerListLiveDataObserver)
         vm.uiState.observeForever(uiStateLiveDataObserver)
         vm.reload()

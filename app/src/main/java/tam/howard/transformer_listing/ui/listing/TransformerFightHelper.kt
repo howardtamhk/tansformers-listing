@@ -39,10 +39,10 @@ class TransformerFightHelper @Inject constructor() {
                 TransformerFightResult.WinningTeam.Deception -> deceptionWinCount++
                 TransformerFightResult.WinningTeam.Tie -> {
                 }
-                TransformerFightResult.WinningTeam.AutoWinCompletion -> {
+                TransformerFightResult.WinningTeam.AutoWinCompetition -> {
                     return TransformerFightResult(
                         noOfFight = i + 1,
-                        winningTeam = TransformerFightResult.WinningTeam.AutoWinCompletion
+                        winningTeam = TransformerFightResult.WinningTeam.AutoWinCompetition
                     )
                 }
             }
@@ -78,7 +78,7 @@ class TransformerFightHelper @Inject constructor() {
      * @return [TransformerTeam] winning transformer team
      * @throws [IllegalStateException] if pass in Deception Transformer to [autobot] or vice versa
      */
-    private fun fight(
+    fun fight(
         autobot: Transformer,
         deception: Transformer
     ): TransformerFightResult.WinningTeam {
@@ -88,7 +88,7 @@ class TransformerFightHelper @Inject constructor() {
 
         // auto win rules
         if (autobot.name.toLowerCase() in autoWinTransformers && deception.name.toLowerCase() in autoWinTransformers) {
-            return TransformerFightResult.WinningTeam.AutoWinCompletion
+            return TransformerFightResult.WinningTeam.AutoWinCompetition
         } else if (autobot.name.toLowerCase() in autoWinTransformers) {
             return TransformerFightResult.WinningTeam.Autobot
         } else if (deception.name.toLowerCase() in autoWinTransformers) {
@@ -98,7 +98,7 @@ class TransformerFightHelper @Inject constructor() {
         //ran away rules
         val courageDiff = autobot.courage - deception.courage
         val strengthDiff = autobot.strength - deception.strength
-        if (courageDiff.sign == strengthDiff.sign && abs(courageDiff) >= 4 && strengthDiff >= 3) {
+        if (courageDiff.sign == strengthDiff.sign && abs(courageDiff) >= 4 && abs(strengthDiff) >= 3) {
             return if (courageDiff.sign > 0) {
                 TransformerFightResult.WinningTeam.Autobot
             } else {

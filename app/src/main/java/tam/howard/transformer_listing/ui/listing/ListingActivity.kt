@@ -66,7 +66,7 @@ class ListingActivity :
                 TransformerFightResult.WinningTeam.Tie,
                 TransformerFightResult.WinningTeam.Autobot,
                 TransformerFightResult.WinningTeam.Deception,
-                TransformerFightResult.WinningTeam.AutoWinCompletion -> {
+                TransformerFightResult.WinningTeam.AutoWinCompetition -> {
                     showFightResultDialog(it)
                 }
                 null -> {
@@ -101,7 +101,7 @@ class ListingActivity :
                     }
                 )
             }
-            TransformerFightResult.WinningTeam.AutoWinCompletion -> {
+            TransformerFightResult.WinningTeam.AutoWinCompetition -> {
                 getString(R.string.all_transformer_destroyed)
             }
             null -> null

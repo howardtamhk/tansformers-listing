@@ -9,6 +9,6 @@ data class TransformerFightResult(
     val survivorFromLosingTeam: List<Transformer> = listOf()
 ) {
     enum class WinningTeam {
-        Tie, Autobot, Deception, AutoWinCompletion
+        Tie, Autobot, Deception, AutoWinCompetition
     }
 }
