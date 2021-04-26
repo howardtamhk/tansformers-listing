@@ -39,28 +39,49 @@
             app:onRefreshListener="@{() -> vm.reload()}"
             app:refreshing="@{vm.uiState == ListingUIState.Loading}">
 
-            <FrameLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_listing"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:clipToPadding="false"
                     android:paddingHorizontal="@dimen/listing_padding_horizontal"
                     android:paddingVertical="@dimen/listing_padding_vertical"
-                    android:visibility="@{vm.isRecyclerViewVisible ? View.VISIBLE : View.GONE}" />
+                    android:visibility="@{vm.isRecyclerViewVisible ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toTopOf="@id/button_listing_fight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/button_listing_fight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginHorizontal="@dimen/listing_padding_horizontal"
+                    android:layout_marginBottom="@dimen/listing_padding_button_margin_bottom"
+                    android:onClick="@{() -> vm.fight()}"
+                    android:text="@string/fight"
+                    android:visibility="@{vm.isRecyclerViewVisible ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:text="@{vm.uiState.uiMessage(context)}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:visibility="@{vm.isRecyclerViewVisible ? View.GONE : View.VISIBLE}" />
+                    android:visibility="@{vm.isRecyclerViewVisible ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </FrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
