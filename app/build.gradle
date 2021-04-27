@@ -114,7 +114,8 @@ dependencies {
     kaptTest "com.google.dagger:hilt-compiler:$dagger_version"
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation "androidx.test.espresso:espresso-core:$esspresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$esspresso_version"
 }
 
 kapt {
