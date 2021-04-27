@@ -5,6 +5,7 @@ buildscript {
     ext.kotlin_coroutines_version = "1.4.3"
     ext.lifecycle_version = "2.3.1"
     ext.dagger_version = "2.35"
+    ext.esspresso_version = "3.3.0"
 
     repositories {
         google()
